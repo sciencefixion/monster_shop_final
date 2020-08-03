@@ -4,7 +4,7 @@ require 'rails_helper'
 RSpec.describe 'Bulk discount index page' do
   before :each do
     @lemarchand = Merchant.create(name: "LeMarchand Boxes", address: '1717 Rue de L\'Académie Royale', city: 'Paris', state: 'TX', zip: 75460)
-    @item1 = @lemarchand.items.create(name: "Lament Configuration", description: "We have such sights to show you!", price: 999, image: "https://vignette.wikia.nocookie.net/cenobite/images/f/fa/Lament_Configuration.jpg", inventory: 999 )
+    @item1 = @lemarchand.items.create(name: "Lament Configuration", description: "We have such sights to show you!", price: 1000, image: "https://vignette.wikia.nocookie.net/cenobite/images/f/fa/Lament_Configuration.jpg", inventory: 999 )
     @m_user = @lemarchand.users.create(name: 'Megan', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, email: 'megan@example.com', password: 'securepassword')
     @discount_1 = @lemarchand.discounts.create(item_name: "#{@item1.name}", required_quantity: 20, percentage: 5)
 
@@ -22,6 +22,29 @@ RSpec.describe 'Bulk discount index page' do
     expect(page).to have_content("#{@item1.name}")
     expect(page).to have_content("Quantity required for the discount: 20")
     expect(page).to have_content("Discount percentage: 5%")
+
+  end
+
+  it "allows bulk discount creation" do
+    visit '/merchant/discounts'
+
+    click_on 'Create New Bulk Discount'
+
+    expect(current_path).to eq("/merchant/discounts/new")
+
+    fill_in 'Item Name', with: "#{@item1.name}"
+    fill_in 'Quantity Required', with: "30"
+    fill_in 'Discount percentage', with: "10"
+
+    click_button 'Create Discount'
+
+    expect(current_path).to eq("/merchant/discounts")
+    expect(page).to have_content('New Discount Created!')
+
+    expect(page).to have_content("#{@item1.name}")
+    expect(page).to have_content("Quantity required for the discount: 30")
+    expect(page).to have_content("Discount percentage: 10%")
+
 
   end
 end
