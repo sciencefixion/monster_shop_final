@@ -1,0 +1,12 @@
+<h2><%= link_to @merchant.name %> Bulk Discounts</h2>
+
+<section class="discounts">
+  <% @merchant.discounts.each do |discount| %>
+    <section id="discount-<%= discount.id %>">
+      <%= link_to discount.id, "/merchant/discounts/#{discount.id}" %>
+      <p>Discounted item: <%= discount.item_name %></p>
+      <p>Quantity required for the discount: <%= discount.required_quantity %></p>
+      <p>Discount percentage: <%= discount.percentage %>%</p>
+    </section>
+  <% end %>
+</section>
