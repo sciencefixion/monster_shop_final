@@ -23,12 +23,18 @@ RSpec.describe 'Bulk discount update page' do
     expect(current_path).to eq("/merchant/discounts/#{@discount_2.id}/edit")
   end
 
-  it "allows updating a bulk discount" do
-    visit "/merchant/discounts/#{@discount_2.id}/edit"
+  xit "allows updating a bulk discount" do
+    visit "/merchant/discounts"
 
     expect(page).to have_content("#{@discount_2.item_name}")
-    expect(page).to have_content("@discount_2.required_quantity")
+    expect(page).to have_content("30")
     expect(page).to have_content("10")
+
+    within "#discount-#{@discount_2.id}" do
+      click_link 'Update Discount'
+    end
+
+    expect(current_path).to eq("/merchant/discounts/#{@discount_2.id}/edit")
 
     fill_in 'Item name', with: "#{@item2.name}"
     fill_in 'Required quantity', with: "40"
@@ -38,11 +44,23 @@ RSpec.describe 'Bulk discount update page' do
 
     expect(current_path).to eq("/merchant/discounts")
 
-    expect(page).to have_content("#{@item2.name}")
+    expect(page).to have_content("Discounted item: The Box of Sorrows")
     expect(page).to have_content("Quantity required for the discount: 40")
     expect(page).to have_content("Discount percentage: 15%")
 
 
   end
 
+  xit "allows bulk discounts to be deleted" do
+    visit "/merchant/discounts"
+
+    within "#discount-#{@discount_2.id}" do
+      click_on 'Delete Discount'
+    end
+    save_and_open_page
+
+    expect(page).to_not have_content("#{@discount_2.id}")
+  end
+
+  
 end

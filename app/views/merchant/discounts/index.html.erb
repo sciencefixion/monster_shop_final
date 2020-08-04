@@ -6,11 +6,15 @@
 <section class="discounts">
   <% @merchant.discounts.each do |discount| %>
     <section id="discount-<%= discount.id %>">
-      <%= link_to discount.id, "/merchant/discounts/#{discount.id}" %>
+      <%= link_to "Discount id: #{discount.id}", "/merchant/discounts/#{discount.id}" %>
+      <br>
+      <%= link_to "Update Discount #{discount.id}", "/merchant/discounts/#{discount.id}/edit"  %>
+      <br>
+      <%= link_to "Delete Discount", "/merchant/discounts/#{discount.id}", method: :delete %>
       <p>Discounted item: <%= discount.item_name %></p>
       <p>Quantity required for the discount: <%= discount.required_quantity %></p>
       <p>Discount percentage: <%= discount.percentage %>%</p>
-      <br>
+      <p>-------------------------------------------</p>
     </section>
   <% end %>
 </section>
