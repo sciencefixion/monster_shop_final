@@ -42,7 +42,7 @@ class Merchant::DiscountsController < Merchant::BaseController
   private
 
   def discount_params
-    params.permit(:item_name, :required_quantity, :percentage)
+    params.permit(:required_quantity, :percentage)
   end
 
 end

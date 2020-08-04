@@ -1,8 +1,5 @@
 <h2>Update Bulk Discount</h2>
 <%= form_tag "/merchant/discounts/#{@discount.id}", method: :patch do %>
-  <%= label_tag :item_name %>
-  <%= text_field_tag :item_name, "#{@discount.item_name}" %>
-  <br>
   <%= label_tag :required_quantity %>
   <%= text_field_tag :required_quantity, "#{@discount.required_quantity}" %>
   <br>
