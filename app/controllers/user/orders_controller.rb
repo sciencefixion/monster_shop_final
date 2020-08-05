@@ -16,9 +16,11 @@ class User::OrdersController < ApplicationController
         order.order_items.create({
           item: item,
           quantity: cart.count_of(item.id),
-          price: item.price
-            #( item_price * item_discount_percentage(item.id)
-          # user story 11
+          price: if cart.available_discount?(item.id)
+            item.price - item.price * cart.item_discount_percentage(item.id)
+          else
+            item.price
+          end
           })
       end
     session.delete(:cart)
