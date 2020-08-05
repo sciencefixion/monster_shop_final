@@ -17,6 +17,8 @@ class User::OrdersController < ApplicationController
           item: item,
           quantity: cart.count_of(item.id),
           price: item.price
+            #( item_price * item_discount_percentage(item.id)
+          # user story 11
           })
       end
     session.delete(:cart)

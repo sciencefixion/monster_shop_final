@@ -24,15 +24,18 @@ class Cart
     end
   end
 
-  def check_for_discount(item_id)
+  def item_discount(item_id)
     merchant = Item.find(item_id).merchant
     quantity = @contents[item_id.to_s]
-    discount = merchant.discounts.where('required_quantity <= ?', quantity).order(required_quantity: :DESC).limit(1)
+    discount = merchant.discounts.where('required_quantity <= ?', quantity).order(required_quantity: :DESC).limit(1).first
   end
 
   def item_discount_percentage(item_id)
-    discount = check_for_discount(item_id).first
-    discount.percentage/100.to_f
+    item_discount(item_id).percentage/100.to_f
+  end
+
+  def available_discount?(item_id)
+    item_discount(item_id) == !nil
   end
 
   def grand_total
@@ -49,7 +52,7 @@ class Cart
 
   def subtotal_of(item_id)
     total_before_discount = @contents[item_id.to_s] * Item.find(item_id).price
-    
+
     # check_for_discount(item_id) ? (total_before_discount - total_discount) : total_before_discount
   end
 

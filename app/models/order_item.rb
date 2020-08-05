@@ -4,6 +4,7 @@ class OrderItem < ApplicationRecord
 
   def subtotal
     quantity * price
+    #user story 11
   end
 
   def fulfill

@@ -83,14 +83,17 @@ RSpec.describe Cart do
       expect(@cart.count_of(@giant.id)).to eq(1)
     end
 
-    it '.check_for_discount()' do
-      expect(@cart2.check_for_discount(@box.id)).to eq([@discount_2])
+    it '.item_discount()' do
+      expect(@cart2.item_discount(@box.id)).to eq(@discount_2)
     end
 
     it '.item_discount_percentage()' do
       expect(@cart2.item_discount_percentage(@box.id)).to eq(0.5)
     end
 
-    
+    it '.available_discount?()' do
+      binding.pry
+      expect(@cart2.available_discount?(@box.id)).to eq(true)
+    end
   end
 end
