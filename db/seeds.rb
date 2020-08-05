@@ -16,7 +16,7 @@ lemarchand = Merchant.create(name: "LeMarchand Boxes", address: '1717 Rue de L\'
 lemarchand.items.create(name: "Lament Configuration", description: "We have such sights to show you!", price: 1000, image: "https://vignette.wikia.nocookie.net/cenobite/images/f/fa/Lament_Configuration.jpg", inventory: 999 )
 lemarchand.items.create(name: "The Box of Sorrows", description: "The box. You opened it. We came.", price: 1000, image: "https://vignette.wikia.nocookie.net/cenobite/images/f/fa/Lament_Configuration.jpg", inventory: 999 )
 lemarchand.users.create(name: 'Frank', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, email: 'frank@labyrinth.com', password: '123456')
-lemarchand.discounts.create(required_quantity: 20, percentage: 5)
+lemarchand.discounts.create(required_quantity: 20, percentage: 50)
 lemarchand.discounts.create(required_quantity: 40, percentage: 25)
 brian.discounts.create(required_quantity: 4, percentage: 50)
 kirsty = User.create(name: 'Kirsty', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, email: 'kirsty@labyrinth.com', password: '123456')

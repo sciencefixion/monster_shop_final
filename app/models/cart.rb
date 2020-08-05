@@ -41,11 +41,8 @@ class Cart
   def grand_total
     grand_total = 0.0
     @contents.each do |item_id, quantity|
-      if available_discount?(item_id)
-        grand_total += ((Item.find(item_id).price * quantity) * item_discount_percentage(item_id))
-      else
-        grand_total += Item.find(item_id).price * quantity
-      end
+      grand_total += subtotal_of(item_id)
+      # Item.find(item_id).price * quantity
     end
     grand_total
   end
@@ -55,12 +52,13 @@ class Cart
   end
 
   def subtotal_of(item_id)
-    subtotal = @contents[item_id.to_s] * Item.find(item_id).price
+    quantity = @contents[item_id.to_s]
+    unit_price = Item.find(item_id).price
+
     if available_discount?(item_id)
-      total_discount = subtotal * item_discount_percentage(item_id)
-      subtotal - total_discount
+      (unit_price * quantity) - (unit_price * quantity) * item_discount_percentage(item_id)
     else
-      subtotal
+      unit_price * quantity
     end
   end
 
