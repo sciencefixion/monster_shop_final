@@ -42,7 +42,6 @@ class Cart
     grand_total = 0.0
     @contents.each do |item_id, quantity|
       grand_total += subtotal_of(item_id)
-      # Item.find(item_id).price * quantity
     end
     grand_total
   end
