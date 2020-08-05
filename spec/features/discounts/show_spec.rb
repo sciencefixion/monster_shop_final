@@ -10,7 +10,10 @@ RSpec.describe 'Bulk discount update page' do
     @discount_1 = @lemarchand.discounts.create(required_quantity: 20, percentage: 5)
     @discount_2 = @lemarchand.discounts.create(required_quantity: 30, percentage: 10)
 
-    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@m_user)
+    visit '/login'
+    fill_in :email,	with: "#{@m_user.email}"
+    fill_in :password,	with: "123456"
+    click_button "Log In"
   end
 
   it "allows clicking a link to a bulk discount edit page" do
@@ -23,7 +26,7 @@ RSpec.describe 'Bulk discount update page' do
     expect(current_path).to eq("/merchant/discounts/#{@discount_2.id}/edit")
   end
 
-  xit "allows updating a bulk discount" do
+  it "allows updating a bulk discount" do
     visit "/merchant/discounts"
 
     expect(page).to have_content("#{@discount_2.id}")
@@ -49,13 +52,12 @@ RSpec.describe 'Bulk discount update page' do
 
   end
 
-  xit "allows bulk discounts to be deleted" do
+  it "allows bulk discounts to be deleted" do
     visit "/merchant/discounts"
 
     within "#discount-#{@discount_2.id}" do
       click_on 'Delete Discount'
     end
-    save_and_open_page
 
     expect(page).to_not have_content("#{@discount_2.id}")
   end

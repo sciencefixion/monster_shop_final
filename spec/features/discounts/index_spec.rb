@@ -8,7 +8,10 @@ RSpec.describe 'Bulk discount index page' do
     @m_user = @lemarchand.users.create(name: 'Frank', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, email: 'frank@labyrinth.com', password: '123456')
     @discount_1 = @lemarchand.discounts.create(required_quantity: 20, percentage: 5)
 
-    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@m_user)
+    visit '/login'
+    fill_in :email,	with: "#{@m_user.email}"
+    fill_in :password,	with: "123456"
+    click_button "Log In"
   end
 
   it "allows bulk discounts to be viewed from a link on the Merchant dashboard" do
