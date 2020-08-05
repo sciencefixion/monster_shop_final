@@ -21,16 +21,11 @@ RSpec.describe Cart do
       @discount_2 = @lemarchand.discounts.create(required_quantity: 4, percentage: 50)
       @discount_3 = @brian.discounts.create(required_quantity: 2, percentage: 50)
 
-      # @m_user = @lemarchand.users.create(name: 'Frank', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, email: 'frank@labyrinth.com', password: '123456')
-      # @user = User.create(name: 'Kirsty', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, email: 'kirsty@labyrinth.com', password: '123456')
-
       @cart2 = Cart.new({
         @lament.id.to_s => 1,
         @hippo.id.to_s => 2,
         @box.id.to_s => 4
         })
-
-      # allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
     end
 
     it '.contents' do
@@ -60,6 +55,7 @@ RSpec.describe Cart do
 
     it '.grand_total' do
       expect(@cart.grand_total).to eq(120)
+      expect(@cart2.grand_total).to eq(3050)
     end
 
     it '.count_of()' do
@@ -70,6 +66,7 @@ RSpec.describe Cart do
     it '.subtotal_of()' do
       expect(@cart.subtotal_of(@ogre.id)).to eq(20)
       expect(@cart.subtotal_of(@giant.id)).to eq(100)
+      # expect(@cart2.subtotal_of(@box.id)).to eq(2000)
     end
 
     it '.limit_reached?()' do
@@ -92,8 +89,8 @@ RSpec.describe Cart do
     end
 
     it '.available_discount?()' do
-      binding.pry
       expect(@cart2.available_discount?(@box.id)).to eq(true)
+      expect(@cart2.available_discount?(@lament.id)).to eq(false)
     end
   end
 end
