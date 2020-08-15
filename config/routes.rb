@@ -37,16 +37,27 @@ Rails.application.routes.draw do
   delete '/reviews/:id', to: 'reviews#destroy'
 
 
-  get '/cart', to: 'cart#show'
-  # resources :cart, only: [:show]
+  # get '/cart', to: 'cart#show'
+  # post '/cart/:item_id', to: 'cart#add_item'
+  # delete '/cart', to: 'cart#empty'
+  # patch '/cart/:change/:item_id', to: 'cart#update_quantity'
+  # delete '/cart/:item_id', to: 'cart#remove_item'
+  scope :cart do
+    get '/', to: 'cart#show'
+    post '/:item_id', to: 'cart#add_item'
+    patch '/:change/:item_id', to: 'cart#update_quantity'
+    delete '/:item_id', to: 'cart#remove_item'
+  end
 
-  post '/cart/:item_id', to: 'cart#add_item'
+  # Unable to scope the following route for some reason
   delete '/cart', to: 'cart#empty'
-  patch '/cart/:change/:item_id', to: 'cart#update_quantity'
-  delete '/cart/:item_id', to: 'cart#remove_item'
 
 
-  get '/registration', to: 'users#new', as: :registration
+  # get '/registration', to: 'users#new', as: :registration
+  scope :registration, as: :registration do
+    get '/', to: 'users#new'
+  end
+
 
   # resources :users, only: [:create, :update]
   post '/users', to: 'users#create', as: 'users'
@@ -65,6 +76,11 @@ Rails.application.routes.draw do
   end
 
 
+  # post '/orders', to: 'user/orders#create'
+  # get '/profile/orders', to: 'user/orders#index'
+  # get '/profile/orders/:id', to: 'user/orders#show'
+  # delete '/profile/orders/:id', to: 'user/orders#cancel'
+  # module :user do
   post '/orders', to: 'user/orders#create'
   get '/profile/orders', to: 'user/orders#index'
   get '/profile/orders/:id', to: 'user/orders#show'
