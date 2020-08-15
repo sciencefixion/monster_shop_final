@@ -49,7 +49,7 @@ Rails.application.routes.draw do
     delete '/:item_id', to: 'cart#remove_item'
   end
 
-  # Unable to scope the following route for some reason
+  # !!! Unable to scope the following route for some reason
   delete '/cart', to: 'cart#empty'
 
 
@@ -80,11 +80,17 @@ Rails.application.routes.draw do
   # get '/profile/orders', to: 'user/orders#index'
   # get '/profile/orders/:id', to: 'user/orders#show'
   # delete '/profile/orders/:id', to: 'user/orders#cancel'
-  # module :user do
-  post '/orders', to: 'user/orders#create'
-  get '/profile/orders', to: 'user/orders#index'
-  get '/profile/orders/:id', to: 'user/orders#show'
-  delete '/profile/orders/:id', to: 'user/orders#cancel'
+  scope :orders, module: :user do
+    post '/', to: 'orders#create'
+  end
+
+  scope :profile do
+    scope :orders, module: :user do
+      get '/', to: 'orders#index'
+      get '/:id', to: 'orders#show'
+      delete '/:id', to: 'orders#cancel'
+    end
+  end
 
 
   get '/login', to: 'sessions#new'
@@ -93,12 +99,34 @@ Rails.application.routes.draw do
 
   namespace :merchant do
     get '/', to: 'dashboard#index', as: :dashboard
-    resources :orders, only: :show
-    resources :items, only: [:index, :new, :create, :edit, :update, :destroy]
+    # resources :orders, only: :show
+    get '/orders/:id', to: 'orders#show', as: 'merchant_order'
+
+    # resources :items, only: [:index, :new, :create, :edit, :update, :destroy]
+    get '/items', to: 'items#index'
+    post '/items', to: 'items#create'
+    get '/items/new', to: 'items#new', as: 'new_merchant_item'
+    get '/items/:id/edit', to: 'items#edit', as: 'edit_merchant_item'
+    patch '/items/:id', to: 'items#update', as: 'merchant_item'
+    put '/items/:id', to: 'items#update'
+    delete '/items/:id', to: 'items#destroy'
+
+
     put '/items/:id/change_status', to: 'items#change_status'
     get '/orders/:id/fulfill/:order_item_id', to: 'orders#fulfill'
-    resources :discounts
+
+
+    # resources :discounts
+    get '/discounts', to: 'discounts#index', as: 'merchant_discounts'
+    post '/discounts', to: 'discounts#create'
+    get '/discounts/new', to: 'discounts#new', as: 'new_merchant_discounts'
+    get '/discounts/:id/edit', to: 'discounts#edit', as: 'edit_merchant_discounts'
+    get '/discounts/:id', to: 'discounts#show', as: 'merchant_discount'
+    patch '/discounts/:id', to: 'discounts#update'
+    put '/discounts/:id', to: 'discounts#update'
+    delete '/discounts/:id', to: 'discounts#destroy'
   end
+
 
   namespace :admin do
     get '/', to: 'dashboard#index', as: :dashboard
