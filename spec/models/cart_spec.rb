@@ -92,5 +92,9 @@ RSpec.describe Cart do
       expect(@cart2.available_discount?(@box.id)).to eq(true)
       expect(@cart2.available_discount?(@lament.id)).to eq(false)
     end
+
+    xit "text" do
+      #write a test that makes item_discount fail for ordering by required_quantity instead of percentage
+    end
   end
 end
